@@ -1,0 +1,11 @@
+[[bin]]
+name = "exec_file"
+path = "src/abc134_d.rs"
+
+[package]
+name = "atcoder-abc"
+version = "0.1.0"
+authors = ["K-jun <poittyo091221@gmail.com>"]
+edition = "2018"
+
+[dependencies]
