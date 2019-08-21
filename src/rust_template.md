@@ -15,7 +15,14 @@ let mut uniq = HashSet::new();
 use std::collections::HashMap;
 
 let mut dist: HashMap<type, type> = HashMap::new();
+
 for (k, v) in dist.iter() {}
+if dist.contains_key(&t) {
+  let current = dist.get_mut(&t).unwrap();
+  current.push(d);
+} else {
+  dist.insert(t, vec![d]);
+}
 ```
 
 - `.entry(a).or_insert(b);`
@@ -32,7 +39,7 @@ use std::collections::BinaryHeap;
 
 let mut bh: BinaryHeap<type> = BinaryHeap::new();
 ```
-
+- `BinaryHeap::from(vec![5, 7]);`
 - `.push()`
 - `.pop()`
 - `BinaryHeap::from(vec![]);`
