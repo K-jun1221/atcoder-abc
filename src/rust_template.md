@@ -121,6 +121,8 @@ let mut vec = vec![];
 - `.reverse()`
 - `.clone()`
 - `.split_off(a)`
+- `.iter().map(|letter| { c += 1; (letter, c) })`
+- `.iter().filter(|a| a.b == a.c)`
 
 ## 最大公約数
 
@@ -365,6 +367,24 @@ fn dfs(node: i64, visited: &mut Vec<i64>, map: &HashMap<i64, Vec<i64>>, deep: i6
 let result: String = format!("{:0>keta$b}", i, keta = d as usize);
 ```
 
+## BitDB
+
+```rust
+// 1101という二進数を10進数に変換する
+let ay := [4, 3, 1];
+let mut s = 0;
+for t in ay {
+  s += 1 << (t - 1);
+}
+// s = 13
+
+// `|`  -> パターンOR
+13 | 3 = 15
+// 1101 or 10 = 1111
+
+
+```
+
 ## Upper/Lower Bound
 
 upper: valより大きい最小の値を返す
@@ -465,3 +485,11 @@ impl UnionFind {
 - `.find(a)` 同じグループに属する番号を得る
 - `.union(a, b)` グループを結合する。すでに結合している場合にはFalseが返る
 - `.size(a)` グループのサイズを得る
+
+
+### 公式Docs
+
+- TraitはGoのInterfaceみたいなもの
+- 基本的にはStringは&str.to_string()で作成する。
+- VectorはForで回したときには参照を取っている。
+- for i in &mut でミュータブルな値を取得可能になるかも?
