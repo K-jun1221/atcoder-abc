@@ -31,6 +31,9 @@ pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
 use std::cmp::{max, min};
 
 fn main() {
+    println!("{}", "oppai");
+    println!("this is from vim")
+
     let n: usize = read();
     let m: usize = read();
 

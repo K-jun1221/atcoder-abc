@@ -28,15 +28,29 @@ pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
 }
 
 use std::cmp::{max, min};
+use std::collections::HashSet;
+
+fn divisors(N: i64) -> HashSet<i64> {
+    let mut ds = vec![];
+    let mut d = 1;
+    while d * d <= N {
+        if N % d == 0 {
+            ds.push(d);
+            ds.push(N / d);
+        }
+        d += 1;
+    }
+    let uniq: HashSet<i64> = ds.into_iter().collect();
+    uniq
+}
 
 fn main() {
-    let a: i64 = read();
-    let b: String = read();
-    let c: i64 = read();
+    let x: i64 = read();
+    let mut ans = x - 1;
 
-    if b == "-" {
-        println!("{}", a - c)
-    } else {
-        println!("{}", a + c)
+    for i in divisors(x) {
+        ans = min(ans, (i - 1) + (x / i) - 1);
     }
+
+    println!("{}", ans)
 }

@@ -25,24 +25,22 @@ pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
             read_n_logic(n - 1, a)
         }
     }
-
 }
 
 use std::cmp::{max, min};
 
 fn main() {
-    let n: String = read();
+    let a: f64 = read();
+    let b: f64 = read();
+    let x: f64 = read();
 
-    if n == "Sunny" {
-        println!("{}", "Cloudy");
+    if (a * a * b) - x < (a * a * b / 2.0) {
+        let ans = (2.0 * ((a * a * b) - x)) / (a * a * a);
+        let abs_difference = ans.atan().to_degrees();
+        println!("{}", abs_difference);
+    } else {
+        let ans = (a - (a - ((2.0 * x) / (a * b)))) / b;
+        let abs_difference = ans.atan().to_degrees();
+        println!("{}", 90.0 - abs_difference);
     }
-
-    if n == "Cloudy" {
-        println!("{}", "Rainy");
-    }
-
-    if n == "Rainy" {
-        println!("{}", "Sunny");
-    }
-
 }

@@ -25,4 +25,3 @@ pub fn zalgorithm(s: &str) -> Vec<usize> {
 
     return a;
 }
-
