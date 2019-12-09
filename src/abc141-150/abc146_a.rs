@@ -30,10 +30,22 @@ pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
 use std::cmp::{max, min};
 
 fn main() {
-    let x: i64 = read();
-    if x == 3 || x == 5 || x == 7 {
-        println!("{}", "YES")
-    } else {
-        println!("{}", "NO")
+    let n: usize = read();
+    let mut k: i64 = read();
+    let mut a: Vec<i64> = read_n(n);
+    let mut f: Vec<i64> = read_n(n);
+    let ans = 0;
+    a.sort();
+    f.sort();
+    f.reverse();
+    println!("{:?}", a);
+    println!("{:?}", f);
+
+    for (i, v) in f.iter().enumerate() {
+        if 0 < k {
+            k -= a[i];
+        }
+
+        println!("k: {}", k);
     }
 }
