@@ -28,40 +28,37 @@ pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
 }
 
 use std::cmp::{max, min};
-
 fn main() {
-    let n: String = read();
-    let n_char: Vec<char> = n.chars().collect();
+    let a: usize = read();
+    let b: usize = read();
+    let x: usize = read();
 
-    let n_len = n_char.len();
-    let mut cnt: i64 = 0;
-
-    if n_len == 1 {
-        println!("{}", 0);
+    let mut ans = 0;
+    let mut top = 100_000_000_0;
+    if (a * (top) + b * keta(top)) <= x {
+        println!("{}", top);
         return;
     }
+    let mut done = false;
+    let mut bottom = 0;
 
-    if n_len % 2 == 1 {
-        // 奇数の場合
-        let front = &n_char[0..n_len / 2 + 1];
-        let back = &n_char[n_len / 2..];
-
-        for (i, v) in front.iter().enumerate() {
-            if *v != back[back.len() - i - 1] {
-                cnt += 1;
-            }
-        }
-    } else {
-        // 偶数の場合
-        let front = &n_char[0..n_len / 2];
-        let back = &n_char[n_len / 2..];
-
-        for (i, v) in front.iter().enumerate() {
-            if *v != back[back.len() - i - 1] {
-                cnt += 1;
-            }
+    while top - bottom != 1 {
+        let i = (top + bottom) / 2;
+        if (a * i + b * keta(i)) <= x {
+            bottom = i;
+        } else {
+            top = i;
         }
     }
+    println!("{}", (top + bottom) / 2);
+}
 
-    println!("{}", cnt)
+fn keta(a: usize) -> usize {
+    let mut x = a.clone();
+    let mut num = 0;
+    while x != 0 {
+        x = (x as i64 / 10) as usize;
+        num += 1;
+    }
+    return num;
 }
