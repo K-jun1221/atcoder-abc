@@ -31,15 +31,24 @@ use std::cmp::{max, min};
 
 fn main() {
     let n: i64 = read();
-    let a: String = read();
-    let a_char: Vec<char> = a.chars().collect();
-    if a_char.len() % 2 != 0 {
-        println!("{}", "No");
-        return;
+    let mut p = vec![];
+    for i in 0..n {
+        let a: i64 = read();
+        let b: i64 = read();
+        p.push((a, b))
     }
-    if a_char[0..n / 2] == a_char[a_char.len() / 2..] {
-        println!("{}", "Yes");
-    } else {
-        println!("{}", "No");
+    let mut ans = 0.0;
+
+    for i in 0..n {
+        for j in 0..n {
+            if i != j {
+                let a = p[i as usize].0;
+                let b = p[i as usize].1;
+                let c = p[j as usize].0;
+                let d = p[j as usize].1;
+                ans += ((a - c).pow(2) as f64 + (b - d).pow(2) as f64).sqrt();
+            }
+        }
     }
+    println!("{}", ans / n as f64);
 }

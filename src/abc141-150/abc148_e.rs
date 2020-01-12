@@ -30,16 +30,18 @@ pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
 use std::cmp::{max, min};
 
 fn main() {
-    let n: i64 = read();
-    let a: String = read();
-    let a_char: Vec<char> = a.chars().collect();
-    if a_char.len() % 2 != 0 {
-        println!("{}", "No");
+    let mut n: i64 = read();
+    if n % 2 == 1 {
+        println!("{}", 0);
         return;
     }
-    if a_char[0..n / 2] == a_char[a_char.len() / 2..] {
-        println!("{}", "Yes");
-    } else {
-        println!("{}", "No");
+
+    let mut ans: i64 = 0;
+    let mut x = 10;
+
+    while x <= n {
+        ans += n / x;
+        x *= 5;
     }
+    println!("{}", ans);
 }

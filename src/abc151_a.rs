@@ -26,20 +26,15 @@ pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
         }
     }
 }
-
 use std::cmp::{max, min};
 
 fn main() {
-    let n: i64 = read();
     let a: String = read();
-    let a_char: Vec<char> = a.chars().collect();
-    if a_char.len() % 2 != 0 {
-        println!("{}", "No");
-        return;
-    }
-    if a_char[0..n / 2] == a_char[a_char.len() / 2..] {
-        println!("{}", "Yes");
-    } else {
-        println!("{}", "No");
-    }
+    let alf = "abcdefghijklmnopqrstuvwxyz";
+    let alf_char: Vec<char> = alf.chars().collect();
+    let next = alf_char
+        .iter()
+        .position(|&x| x == a.chars().nth(0).unwrap())
+        .unwrap();
+    println!("{}", alf_char[next + 1]);
 }

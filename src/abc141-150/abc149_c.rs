@@ -28,18 +28,28 @@ pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
 }
 
 use std::cmp::{max, min};
+use std::collections::HashSet;
+
+fn divisors(N: i64) -> HashSet<i64> {
+    let mut ds = vec![];
+    let mut d = 1;
+    while d * d <= N {
+        if N % d == 0 {
+            ds.push(d);
+            ds.push(N / d);
+        }
+        d += 1;
+    }
+    let uniq: HashSet<i64> = ds.into_iter().collect();
+    uniq
+}
 
 fn main() {
     let n: i64 = read();
-    let a: String = read();
-    let a_char: Vec<char> = a.chars().collect();
-    if a_char.len() % 2 != 0 {
-        println!("{}", "No");
-        return;
-    }
-    if a_char[0..n / 2] == a_char[a_char.len() / 2..] {
-        println!("{}", "Yes");
-    } else {
-        println!("{}", "No");
+    for i in n..1000000 {
+        if divisors(i).len() == 2 {
+            println!("{}", i);
+            break;
+        }
     }
 }

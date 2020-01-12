@@ -387,8 +387,8 @@ for t in ay {
 
 ## Upper/Lower Bound
 
-upper: valより大きい最小の値を返す
-lower: val以上の最小の値を返す
+upper: val以下の数の個数を返す
+lower: val未満の数の個数を返す
 
 ```rust
 use std::cmp::Ordering;

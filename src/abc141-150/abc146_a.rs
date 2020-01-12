@@ -1,3 +1,4 @@
+
 use std::io::*;
 use std::str::FromStr;
 
@@ -30,22 +31,27 @@ pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
 use std::cmp::{max, min};
 
 fn main() {
-    let n: usize = read();
-    let mut k: i64 = read();
-    let mut a: Vec<i64> = read_n(n);
-    let mut f: Vec<i64> = read_n(n);
-    let ans = 0;
-    a.sort();
-    f.sort();
-    f.reverse();
-    println!("{:?}", a);
-    println!("{:?}", f);
+    let a: String = read();
+    if a == "SUN" {
+        println!("{}", 7);
+    } 
+    if a == "MON" {
+        println!("{}", 6);
+    } 
+    if a == "TUE" {
+        println!("{}", 5);
+    } 
+    if a == "WED" {
+        println!("{}", 4);
+    } 
+    if a == "THU" {
+        println!("{}", 3);
+    } 
+    if a == "FRI" {
+        println!("{}", 2);
+    } 
+    if a == "SAT" {
+        println!("{}", 1);
+    } 
 
-    for (i, v) in f.iter().enumerate() {
-        if 0 < k {
-            k -= a[i];
-        }
-
-        println!("k: {}", k);
-    }
 }

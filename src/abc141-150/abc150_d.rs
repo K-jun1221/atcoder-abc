@@ -27,19 +27,41 @@ pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
     }
 }
 
-use std::cmp::{max, min};
+fn gcd(x: i64, y: i64) -> i64 {
+    if y == 0 {
+        x
+    } else {
+        gcd(y, x % y)
+    }
+}
 
+fn lcm(x: i64, y: i64) -> i64 {
+    x * (y / gcd(x, y))
+}
+
+use std::cmp::{max, min};
 fn main() {
-    let n: i64 = read();
-    let a: String = read();
-    let a_char: Vec<char> = a.chars().collect();
-    if a_char.len() % 2 != 0 {
-        println!("{}", "No");
+    let n: usize = read();
+    let m: i64 = read();
+    let a: Vec<i64> = read_n(n);
+    let b: Vec<i64> = a.iter().map(|x| x / 2).collect();
+    if b.len() == 1 {
+        if m / b[0] != 0 {
+            println!("{}", m / b[0] / 2 + m / b[0] % 2);
+        } else {
+            println!("{}", 0);
+        }
         return;
     }
-    if a_char[0..n / 2] == a_char[a_char.len() / 2..] {
-        println!("{}", "Yes");
+    let mut c = lcm(b[0], b[1]);
+
+    for i in b {
+        c = lcm(c, i)
+    }
+
+    if m / c != 0 {
+        println!("{}", m / c / 2 + m / c % 2);
     } else {
-        println!("{}", "No");
+        println!("{}", 0);
     }
 }
