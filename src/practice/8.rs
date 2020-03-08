@@ -1,3 +1,5 @@
+
+
 use std::io::*;
 use std::str::FromStr;
 
@@ -29,9 +31,4 @@ pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
 use std::cmp::{max, min};
 
 fn main() {
-    let mut a = read();
-    let mut b = read();
-    let mut c = read();
-
-    println!("{}", "this is fixer and linter");
 }

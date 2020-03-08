@@ -30,11 +30,5 @@ use std::cmp::{max, min};
 
 fn main() {
     let a: String = read();
-    let alf = "abcdefghijklmnopqrstuvwxyz";
-    let alf_char: Vec<char> = alf.chars().collect();
-    let next = alf_char
-        .iter()
-        .position(|&x| x == a.chars().nth(0).unwrap())
-        .unwrap();
-    println!("{}", alf_char[next + 1]);
+    let b: String = read();
 }

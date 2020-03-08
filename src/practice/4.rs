@@ -1,3 +1,4 @@
+
 use std::io::*;
 use std::str::FromStr;
 
@@ -29,9 +30,28 @@ pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
 use std::cmp::{max, min};
 
 fn main() {
-    let mut a = read();
-    let mut b = read();
-    let mut c = read();
+    let n: i64 = read();
+    let m: usize = read();
+    let mut map: Vec<Vec<i64>> = vec![];
+    let mut ans = 0;
+    for _ in 0..n {
+        let a = read_n(m);
+        map.push(a);
+    }
 
-    println!("{}", "this is fixer and linter");
+    for i in 0..m {
+        for j in 0..m {
+            if i == j {
+                continue;
+            }
+            let mut val = 0;
+            for k in 0..n {
+                val += max(map[k as usize][i], map[k as usize][j]);
+            }
+            ans = max(ans, val);
+
+        }
+    }
+
+    println!("{}", ans);
 }
