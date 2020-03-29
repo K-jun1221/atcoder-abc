@@ -183,6 +183,22 @@ for i in 0..two.pow(n) {
   println("{}", result)
 }
 ```
+## 高速で2^nを計算
+
+```rust
+fn powmod(x: i64, n: i64) -> i64 {
+    if n == 0 {
+        return 1;
+    }
+    if n % 2 == 0 {
+        let k = powmod(x, n / 2);
+        return (k * k) % MODULO;
+    } else {
+        let k = powmod(x, n / 2);
+        return (((k * k) % MODULO) * x) % MODULO;
+    }
+}
+```
 
 ## 約数を列挙
 
@@ -205,18 +221,39 @@ fn divisors(N: i64) -> HashSet<i64> {
 ```
 
 ## コンビネーション(nCr)
-
+https://docs.rs/reform/0.1.0/src/reform/tools.rs.html#285-298
 ```rust
-fn nCr(n: i64, r: i64) -> i64 {
-  let mut ans = 1;
-  for i in r+1..n+1 {
-    ans *= i;
-  }
+fn powmod(x: i64, n: i64) -> i64 {
+    if n == 0 {
+        return 1;
+    }
+    if n % 2 == 0 {
+        let k = powmod(x, n / 2);
+        return (k * k) % MODULO;
+    } else {
+        let k = powmod(x, n / 2);
+        return (((k * k) % MODULO) * x) % MODULO;
+    }
+}
+fn combination(a: i64, b: i64) -> i64 {
+    let mut ret = 1;
+    for i in 0..b {
+        ret = ret * (a - i) % MODULO;
+    }
+    return ret * inverse(fact(b)) % MODULO;
+}
 
-  for i in 1..r+1 {
-    ans /= i;
-  }
-  return ans;
+fn inverse(x: i64) -> i64 {
+    powmod(x, MODULO - 2)
+}
+
+#[test]
+fn test_combination() {
+    assert_eq!(combination(6, 3), (6 * 5 * 4) / (3 * 2 * 1));
+    assert_eq!(fact(5), 5 * 4 * 3 * 2 * 1);
+    assert_eq!(combination(4, 1), 4);
+    assert_eq!(combination(4, 3), 4);
+    assert_eq!(powmod(2, 4), 16);
 }
 ```
 

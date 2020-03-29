@@ -26,35 +26,25 @@ pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
         }
     }
 }
-
 use std::cmp::{max, min};
 
 fn main() {
-    let n: i64 = read();
-    let mut a: Vec<i64> = vec![];
-    let mut b: Vec<i64> = vec![];
+    let n: usize = read();
+    let x: Vec<i64> = read_n(n);
+    let mut avg: f64 = 0.0;
 
-    for _ in 0..n {
-        let item_a: i64 = read();
-        let item_b: i64 = read();
-        a.push(item_a);
-        b.push(item_b);
+    let mut ans = 0;
+    for i in 0..x.len() {
+        let xi = x[i];
+        avg += xi as f64;
     }
-    let mut ans: i64 = std::i64::MAX;
 
-    let mut ab: Vec<i64> = [&a[..], &b[..]].concat();
-    for i in &ab {
-        for j in &ab {
-            let mut maybe_ans = 0;
-            for k in 0..n {
-                let k_usize = k as usize;
-                maybe_ans += (i - a[k_usize]).abs()
-                    + (a[k_usize] - b[k_usize]).abs()
-                    + (b[k_usize] - j).abs();
-            }
-            ans = min(ans, maybe_ans);
-        }
+    avg = avg / x.len() as f64;
+    let point: i64 = avg.round() as i64;
+
+    for i in 0..x.len() {
+        let xi = x[i];
+        ans += (point - xi).pow(2)
     }
     println!("{}", ans);
 }
-

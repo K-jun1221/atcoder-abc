@@ -26,35 +26,24 @@ pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
         }
     }
 }
-
 use std::cmp::{max, min};
 
 fn main() {
-    let n: i64 = read();
-    let mut a: Vec<i64> = vec![];
-    let mut b: Vec<i64> = vec![];
-
-    for _ in 0..n {
-        let item_a: i64 = read();
-        let item_b: i64 = read();
-        a.push(item_a);
-        b.push(item_b);
+    let h = read();
+    let mut cnt = 0;
+    let mut val: i64 = 1;
+    if h == 1 {
+        println!("{}", 1);
+        return
     }
-    let mut ans: i64 = std::i64::MAX;
 
-    let mut ab: Vec<i64> = [&a[..], &b[..]].concat();
-    for i in &ab {
-        for j in &ab {
-            let mut maybe_ans = 0;
-            for k in 0..n {
-                let k_usize = k as usize;
-                maybe_ans += (i - a[k_usize]).abs()
-                    + (a[k_usize] - b[k_usize]).abs()
-                    + (b[k_usize] - j).abs();
-            }
-            ans = min(ans, maybe_ans);
+    while val < h {
+        cnt += 1;
+        val *= 2;
+        if val == h {
+            cnt += 1;
+            break;
         }
     }
-    println!("{}", ans);
+    println!("{}", 2_i64.pow(cnt) - 1);
 }
-

@@ -28,14 +28,41 @@ pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
 }
 use std::cmp::{max, min};
 
+fn nCr(mut k: i64, n: i64) -> i64 {
+    if k > n {
+        return 0;
+    }
+    if k * 2 > n {
+        k = n - k
+    }
+    let mut res = 1;
+    for i in 1..k + 1 {
+        res *= n - k + i;
+        res /= i;
+    }
+    res
+}
 fn main() {
-    let a: i64 = read();
-    let o: String = read();
-    let b: i64 = read();
+    let n = read();
+    let a: Vec<usize> = read_n(n);
+    let mut map: Vec<usize> = vec![0; n];
+    let mut anss: Vec<i64> = vec![0; n];
 
-    if o == "+" {
-        println!("{}", a + b);
-    } else {
-        println!("{}", a - b);
+    for i in &a {
+        map[*i - 1] += 1;
+    }
+    //
+    let mut ans = 0;
+    for (idx, v) in map.iter().enumerate() {
+        let mut vc: i64 = *v as i64;
+        ans += nCr(2, vc as i64);
+    }
+
+    for i in 0..n {
+        anss[i] = ans - nCr(2, map[i] as i64) + nCr(2, map[i] as i64 - 1);
+    }
+
+    for i in &a {
+        println!("{}", anss[*i -1 as usize]);
     }
 }

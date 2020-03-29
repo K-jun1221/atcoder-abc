@@ -1,3 +1,5 @@
+
+
 use std::io::*;
 use std::str::FromStr;
 
@@ -26,35 +28,20 @@ pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
         }
     }
 }
-
 use std::cmp::{max, min};
 
 fn main() {
-    let n: i64 = read();
-    let mut a: Vec<i64> = vec![];
-    let mut b: Vec<i64> = vec![];
+    let n: usize= read();
+    let a: Vec<i64> = read_n(n);
+    let mut ans = "APPROVED".to_string();
 
-    for _ in 0..n {
-        let item_a: i64 = read();
-        let item_b: i64 = read();
-        a.push(item_a);
-        b.push(item_b);
-    }
-    let mut ans: i64 = std::i64::MAX;
-
-    let mut ab: Vec<i64> = [&a[..], &b[..]].concat();
-    for i in &ab {
-        for j in &ab {
-            let mut maybe_ans = 0;
-            for k in 0..n {
-                let k_usize = k as usize;
-                maybe_ans += (i - a[k_usize]).abs()
-                    + (a[k_usize] - b[k_usize]).abs()
-                    + (b[k_usize] - j).abs();
+    for i in 0..a.len() {
+        let ai = a[i];
+        if ai % 2 == 0 {
+            if ai % 3 != 0 && ai % 5 != 0 {
+                ans = "DENIED".to_string();
             }
-            ans = min(ans, maybe_ans);
         }
     }
     println!("{}", ans);
 }
-

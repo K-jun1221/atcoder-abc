@@ -91,6 +91,7 @@ fn main() {
 
     let (ok, ng) = binary_search(0, search_max, criterion);
 
+    
     let aa = ok;
     let mut ans = 0;
     let mut found = 0;

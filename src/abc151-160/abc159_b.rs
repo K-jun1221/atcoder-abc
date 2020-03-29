@@ -26,35 +26,31 @@ pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
         }
     }
 }
-
 use std::cmp::{max, min};
 
-fn main() {
-    let n: i64 = read();
-    let mut a: Vec<i64> = vec![];
-    let mut b: Vec<i64> = vec![];
-
-    for _ in 0..n {
-        let item_a: i64 = read();
-        let item_b: i64 = read();
-        a.push(item_a);
-        b.push(item_b);
-    }
-    let mut ans: i64 = std::i64::MAX;
-
-    let mut ab: Vec<i64> = [&a[..], &b[..]].concat();
-    for i in &ab {
-        for j in &ab {
-            let mut maybe_ans = 0;
-            for k in 0..n {
-                let k_usize = k as usize;
-                maybe_ans += (i - a[k_usize]).abs()
-                    + (a[k_usize] - b[k_usize]).abs()
-                    + (b[k_usize] - j).abs();
-            }
-            ans = min(ans, maybe_ans);
+fn isKaibun(s: &str) -> bool {
+    let mut check = true;
+    let mut cnt = 0;
+    let s_char: Vec<char> = s.chars().collect();
+    let s_len = s.len();
+    while cnt < s_len / 2 {
+        if s_char[cnt] != s_char[s_len - cnt - 1] {
+            check = false
         }
+
+        cnt += 1;
     }
-    println!("{}", ans);
+    check
 }
 
+fn main() {
+    let s: String = read();
+    let s_len = s.len();
+    let a = &s[0..(s_len - 1) / 2];
+    let b = &s[(s_len + 3) / 2 - 1..];
+    if isKaibun(&s) && isKaibun(a) && isKaibun(b) {
+        println!("{}", "Yes");
+    } else {
+        println!("{}", "No");
+    }
+}
