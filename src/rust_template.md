@@ -72,7 +72,7 @@ let mut v = VecDeque::new();
 - `.pop_back(a)`
 - `.pop_front(a)`
 
-## 型変換一覧
+## type convertor
 
 ```rust
 // int to string
@@ -294,108 +294,17 @@ let mut j = 0;
 while a * i <= y {
   while a * i + b * j <= y {
     println("i: {}, j: {}", i, j);
-    j += 1;
-  }
+    j += 1; }
   i += 1;
   j = 0;
 }
 ```
 
-## グラフ理論
+## graph
 
-隣接行列としてまとめた方がはるかに扱いやすい。その後のDFSとかの実装もめちゃくちゃ楽になる。
-隣接行列はデータ量が圧倒的に多くなるのが欠点。
-
-隣接行列 Ver
 ```rust
-// n: node, m: edge
-fn main() {
-  let n = read::<usize>();
-  let m = read::<usize>();
-  let mut map: Vec<Vec<usize>> = vec![vec![0; n]; n];
-  for _ in 0..m {
-    let a = read::<usize>();
-    let b = read::<usize>();
-    map[a - 1][b - 1] = 1;
-    map[b - 1][a - 1] = 1;
-  }
-  
-  let mut visited: Vec<usize> = vec![];
-  let mut node = 0;
-  
-  dfs(node, &mut visited, &map);
-}
+    type Graph = Vec<Vec<usize>>;
 
-
-
-fn dfs(node: usize, visited: &mut Vec<usize>, map: &Vec<Vec<usize>>) {
-  if visited.contains(&node) {
-    return;
-  }
-  visited.push(node);
-  for (i, v) in map[node].iter().enumerate() {
-    if *v == 1 {
-      dfs(i, visited, map)
-    }
-  }
-}
-
-```
-
-HashMap Ver
-```rust
-fn main() {
-  let n = read::<i64>();
-  let m = read::<i64>();
-  let mut map: HashMap<i64, Vec<i64>> = HashMap::new();
-
-  for _ in 0..m {
-    let a = read::<i64>();
-    let b = read::<i64>();
-    if map.contains_key(&a) {
-      let current = map.get_mut(&a).unwrap();
-      current.push(b)
-    } else {
-      map.insert(a, vec![b]);
-    }
-
-    if map.contains_key(&b) {
-      let current = map.get_mut(&b).unwrap();
-      current.push(a)
-    } else {
-      map.insert(b, vec![a]);
-    }
-  }
-
-  let mut visited = vec![];
-  let mut node = 1;
-  let mut deep = 1;
-
-  dfs(node, &mut visited, &map, deep);
-
-  if visited.contains(&(n)) {
-    println!("POSSIBLE");
-  } else {
-    println!("IMPOSSIBLE");
-  }
-}
-
-fn dfs(node: i64, visited: &mut Vec<i64>, map: &HashMap<i64, Vec<i64>>, deep: i64) {
-  // println!("node: {}", node);
-  if 3 < deep {
-    return;
-  }
-  if visited.contains(&node) {
-    return;
-  }
-  visited.push(node);
-  if map.contains_key(&node) {
-    for (i, v) in map.get(&node).unwrap().iter().enumerate() {
-      dfs(*v as i64, visited, map, deep + 1)
-    }
-  }
-
-}
 ```
 
 ## 2^10の列挙
@@ -482,41 +391,91 @@ struct UnionFind {
     parent: Vec<usize>,
     size: Vec<usize>,
 }
+
 impl UnionFind {
     fn new(n: usize) -> UnionFind {
-        UnionFind {
-            parent: (0..n).collect(),
-            size: vec![1; n],
+        // initialize
+        let mut v: Vec<usize> = vec![];
+        for i in 0..n + 1 {
+            v.push(i)
         }
+        let mut s: Vec<usize> = vec![1; n + 1];
+
+        UnionFind { parent: v, size: s }
     }
-    fn find(&mut self, x: usize) -> usize {
+
+    fn root(&self, x: usize) -> usize {
         if self.parent[x] == x {
-            x
+            return x;
         } else {
-            let p = self.parent[x];
-            self.parent[x] = self.find(p);
-            self.parent[x]
+            return self.root(self.parent[x]);
         }
     }
-    fn union(&mut self, x: usize, y: usize) -> bool {
-        let mut x = self.find(x);
-        let mut y = self.find(y);
-        if x == y {
-            false
-        } else {
-            if self.size[x] < self.size[y] {
-                std::mem::swap(&mut x, &mut y);
-            }
-            self.parent[y] = x;
-            self.size[x] += self.size[y];
-            true
-        }
+
+    fn size(&self, a: usize) -> usize {
+        let ra = self.root(a);
+        self.size[ra]
     }
-    fn size(&mut self, x: usize) -> usize {
-        let p = self.find(x);
-        self.size[p]
+
+    fn unite(&mut self, a: usize, b: usize) {
+        let mut ra = self.root(a);
+        let mut rb = self.root(b);
+        if ra == rb {
+            return;
+        }
+        if self.size[ra] < self.size[rb] {
+            std::mem::swap(&mut ra, &mut rb)
+        };
+        self.size[ra] += self.size[rb];
+        self.parent[rb] = ra;
+    }
+
+    fn same(&self, a: usize, b: usize) -> bool {
+        let ra = self.root(a);
+        let rb = self.root(b);
+        self.parent[a] == self.parent[b]
     }
 }
+```
+## segment-tree
+```
+struct SegTree {
+    op: fn(i64, i64) -> i64,
+    pub v: Vec<i64>,
+    next_two: usize,
+}
+
+impl SegTree {
+    fn new(org: Vec<i64>, func: fn(i64, i64) -> i64) -> Self {
+        let orglen = org.len();
+        let mut next_two = 1;
+        while next_two < orglen {
+            next_two *= 2;
+        }
+
+        let vlen = next_two * 2;
+        let mut v: Vec<i64> = vec![0; vlen];
+
+        for i in (0..vlen).rev() {
+            if next_two <= i && i - next_two < orglen {
+                v[i] = org[i - next_two];
+            }
+            if i != 0 && i < next_two {
+                v[i] = v[i * 2] | v[i * 2 + 1];
+            }
+        }
+        SegTree { op: func, v: v, next_two: next_two }
+    }
+    fn update(&mut self, idx: usize, nv: i64) {
+        self.v[idx + self.next_two] = nv;
+        let mut current_idx = idx + self.next_two;
+        while current_idx != 1 {
+            current_idx = current_idx / 2;
+            self.v[current_idx] = self.v[current_idx * 2] | self.v[current_idx * 2 + 1];
+        }
+    }
+}
+
 ```
 
 - `.find(a)` 同じグループに属する番号を得る
@@ -524,9 +483,3 @@ impl UnionFind {
 - `.size(a)` グループのサイズを得る
 
 
-### 公式Docs
-
-- TraitはGoのInterfaceみたいなもの
-- 基本的にはStringは&str.to_string()で作成する。
-- VectorはForで回したときには参照を取っている。
-- for i in &mut でミュータブルな値を取得可能になるかも?
