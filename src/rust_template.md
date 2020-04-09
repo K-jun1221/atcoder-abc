@@ -310,7 +310,10 @@ while a * i <= y {
 ## 2^10の列挙
 
 ```rust
+<!-- too slow -->
 let result: String = format!("{:0>keta$b}", i, keta = d as usize);
+
+
 ```
 
 ## BitDB
@@ -478,8 +481,5 @@ impl SegTree {
 
 ```
 
-- `.find(a)` 同じグループに属する番号を得る
-- `.union(a, b)` グループを結合する。すでに結合している場合にはFalseが返る
-- `.size(a)` グループのサイズを得る
 
 
