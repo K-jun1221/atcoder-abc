@@ -220,40 +220,56 @@ fn divisors(N: i64) -> HashSet<i64> {
 }
 ```
 
-## コンビネーション(nCr)
+## convination(ncr)
 https://docs.rs/reform/0.1.0/src/reform/tools.rs.html#285-298
 ```rust
-fn powmod(x: i64, n: i64) -> i64 {
-    if n == 0 {
-        return 1;
-    }
-    if n % 2 == 0 {
-        let k = powmod(x, n / 2);
-        return (k * k) % MODULO;
-    } else {
-        let k = powmod(x, n / 2);
-        return (((k * k) % MODULO) * x) % MODULO;
-    }
+pub struct Comb {
+    max: usize,
+    m: i64,
+    fac: Vec<i64>,
+    finv: Vec<i64>,
 }
-fn combination(a: i64, b: i64) -> i64 {
-    let mut ret = 1;
-    for i in 0..b {
-        ret = ret * (a - i) % MODULO;
+impl Comb {
+    /// initialize table
+    /// max: maximum that n as nCk takes
+    /// m: MOD, a prime number
+    /// O(n)
+    pub fn new(max: usize, m: i64) -> Comb {
+        let n = max;
+        let mut fac = Vec::with_capacity(n);
+        fac.push(1);
+        fac.push(1);
+        let mut finv = Vec::with_capacity(n);
+        finv.push(1);
+        finv.push(1);
+        let mut inv = Vec::with_capacity(n);
+        inv.push(1);
+        inv.push(1);
+        for i in 2..n {
+            let i = i as i64;
+            let tmp = fac.last().unwrap() * i % m;
+            fac.push(tmp);
+            let tmp = m - inv[(m % i) as usize] * (m / i) % m;
+            inv.push(tmp);
+            let tmp = finv.last().unwrap() * inv.last().unwrap() % m;
+            finv.push(tmp);
+        }
+        Comb {
+            max: max,
+            m: m,
+            fac: fac,
+            finv: finv,
+        }
     }
-    return ret * inverse(fact(b)) % MODULO;
-}
-
-fn inverse(x: i64) -> i64 {
-    powmod(x, MODULO - 2)
-}
-
-#[test]
-fn test_combination() {
-    assert_eq!(combination(6, 3), (6 * 5 * 4) / (3 * 2 * 1));
-    assert_eq!(fact(5), 5 * 4 * 3 * 2 * 1);
-    assert_eq!(combination(4, 1), 4);
-    assert_eq!(combination(4, 3), 4);
-    assert_eq!(powmod(2, 4), 16);
+    /// nCr
+    pub fn ncr(&self, n: usize, k: usize) -> i64 {
+        // since n, k are usize, do not need to check `n < 0 || k < 0`
+        if n < k || n > self.max {
+            panic!("Invalid query (n, k) = ({}, {})", n, k);
+        } else {
+            self.fac[n] * (self.finv[k] * self.finv[n - k] % self.m) % self.m
+        }
+    }
 }
 ```
 
@@ -479,6 +495,11 @@ impl SegTree {
     }
 }
 
+```
+
+##degit dp
+```
+// ref: abc156_e.rs
 ```
 
 
