@@ -11,26 +11,7 @@ let mut uniq = HashSet::new();
 
 ## HashMap
 
-```rust
-use std::collections::HashMap;
-
-let mut dist: HashMap<type, type> = HashMap::new();
-
-for (k, v) in dist.iter() {}
-if dist.contains_key(&t) {
-  let current = dist.get_mut(&t).unwrap();
-  current.push(d);
-} else {
-  dist.insert(t, vec![d]);
-}
-```
-
-- `.entry(a).or_insert(b);`
-- `.len()`
-- `.values().all(|x| *x == 2)`
-- `get_mut(a).unwrap()`
-- `insert(a, b);`
-- `contains_key()`
+Vec<Vec<type>> is enough for this usage
 
 ## BinaryHeap
 
@@ -397,7 +378,6 @@ impl<T: Ord> BinarySearch<T> for [T] {
       }
     }
     low
-  }
 }
 ```
 
@@ -502,5 +482,8 @@ impl SegTree {
 // ref: abc156_e.rs
 ```
 
+## DFS, BFS
+
+done.contains is too slow don't go in  this way
 
 
