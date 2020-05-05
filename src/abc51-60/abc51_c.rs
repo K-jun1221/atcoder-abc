@@ -18,50 +18,5 @@ use std::cmp::{max, min};
 use std::collections::HashMap;
 
 fn main() {
-  let mut sx = read::<i64>();
-  let mut sy = read::<i64>();
-  let mut tx = read::<i64>();
-  let mut ty = read::<i64>();
-  let mut ans = String::from("");
-
-  let abs_y = ty - sy;
-  let abs_x = tx - sx;
-  // 1往路
-  for i in 0..abs_y {
-    ans.push('U')
-  }
-  for i in 0..abs_x {
-    ans.push('R')
-  }
-
-  // 1帰り
-  ans.push('R');
-  for i in 0..abs_y + 1 {
-    ans.push('D')
-  }
-  for i in 0..abs_x + 1 {
-    ans.push('L')
-  }
-  ans.push('U');
-
-  // 2行き
-  for i in 0..abs_x {
-    ans.push('R')
-  }
-  for i in 0..abs_y {
-    ans.push('U')
-  }
-
-  // 2帰り
-  ans.push('U');
-  for i in 0..abs_x + 1 {
-    ans.push('L')
-  }
-  for i in 0..abs_y + 1 {
-    ans.push('D')
-  }
-  ans.push('R');
-
-  println!("{}", ans);
 }
 
