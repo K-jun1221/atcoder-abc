@@ -1,6 +1,6 @@
 [[bin]]
 name = "exec_file"
-path = "src/abc166_e.rs"
+path = "src/abc64_d.rs"
 
 [package]
 name = "atcoder-abc"

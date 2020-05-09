@@ -1,3 +1,29 @@
+
+## Start Template
+
+```rust
+
+use std::io::*;
+use std::str::FromStr;
+
+pub fn read<T: FromStr>() -> T {
+    let stdin = stdin();
+    let stdin = stdin.lock();
+    let token: String = stdin
+        .bytes()
+        .map(|c| c.expect("failed to read char") as char)
+        .skip_while(|c| c.is_whitespace())
+        .take_while(|c| !c.is_whitespace())
+        .collect();
+    token.parse().ok().expect("failed to parse token")
+}
+
+fn main() {
+
+}
+
+```
+
 ## HashSet
 ```rust
 use std::collections::HashSet;
@@ -53,45 +79,6 @@ let mut v = VecDeque::new();
 - `.pop_back(a)`
 - `.pop_front(a)`
 
-## type convertor
-
-```rust
-// int to string
-i.to_string();
-
-// char to int
-c.to_digit(10).unwrap();
-
-// char to string
-c.to_string();
-
-// chars to string
-// let s: String = c.iter().collect()
-// 1.15で動かん
-
-// string to int
-s.parse().unwrap();
-
-// string to chars
-s.chars().collect::<Vec<char>>();
-
-// string to char
-s.chars().nth(num).unwrap();
-
-// string + &str
-s.push_str(str)
-
-// string + char
-s.push(str)
-
-// binary number to int
-let ans = "101";
-let intval = isize::from_str_radix(&ans, 2).unwrap();
-
-// int to binary number
-let num = format!("{:b}", i)
-let result: String = format!("{:0>keta$b}", i, keta = d as 
-```
 
 ## Vector
 

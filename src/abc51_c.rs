@@ -13,63 +13,45 @@ pub fn read<T: FromStr>() -> T {
     token.parse().ok().expect("failed to parse token")
 }
 
-pub fn read_n<T: FromStr>(n: usize) -> Vec<T> {
-    read_n_logic::<T>(n, vec![])
-}
-
-pub fn read_n_logic<T: FromStr>(n: usize, mut a: Vec<T>) -> Vec<T> {
-    match n {
-        0 => a,
-        _ => {
-            a.push(read::<T>());
-            read_n_logic(n - 1, a)
-        }
-    }
-}
-use std::cmp::{max, min};
-use std::collections::HashSet;
-
 fn main() {
     let sx: i64 = read();
     let sy: i64 = read();
     let tx: i64 = read();
     let ty: i64 = read();
-
     let mut ans: String = String::new();
-    let xdist = tx - sx;
-    let ydist = ty - sy;
+    let x: usize = (tx - sx) as usize;
+    let y: usize = (ty - sy) as usize;
 
-    for _ in 0..xdist {
-        ans += "R"
+    for _ in 0..x {
+        ans += &"R".to_string();
     }
-
-    for _ in sy..ty {
-        ans += "U"
+    for _ in 0..y {
+        ans += &"U".to_string();
     }
-
-    for _ in sx..tx {
-        ans += "L"
+    for _ in 0..x {
+        ans += &"L".to_string();
     }
-    for _ in sy..ty {
-        ans += "D"
+    for _ in 0..y {
+        ans += &"D".to_string();
     }
     ans += "D";
-
-    for _ in sx..tx + 1 {
-        ans += "R"
+    for _ in 0..x + 1 {
+        ans += &"R".to_string();
+    }
+    for _ in 0..y + 1 {
+        ans += &"U".to_string();
     }
 
-    for _ in 0..ydist + 1 {
-        ans += "U"
+    ans += "L";
+    ans += "U";
+
+    for _ in 0..x + 1 {
+        ans += &"L".to_string();
     }
-    ans += "LU";
-    for _ in 0..xdist + 1 {
-        ans += "L"
+    for _ in 0..y + 1 {
+        ans += &"D".to_string();
     }
 
-    for _ in 0..ydist + 1 {
-        ans += "D"
-    }
     ans += "R";
     println!("{}", ans);
 }
