@@ -1,5 +1,5 @@
 
-## Start Template
+## Starter Template
 
 ```rust
 
@@ -23,74 +23,6 @@ fn main() {
 }
 
 ```
-
-## HashSet
-```rust
-use std::collections::HashSet;
-
-let mut uniq = HashSet::new();
-```
-
-- `.insert(a)`
-- `.remove(a)`
-- `.len()`
-
-## HashMap
-
-Vec<Vec<type>> is enough for this usage
-
-## BinaryHeap
-
-```rust
-use std::collections::BinaryHeap;
-
-let mut bh: BinaryHeap<type> = BinaryHeap::new();
-```
-- `BinaryHeap::from(vec![5, 7]);`
-- `.push()`
-- `.pop()`
-- `BinaryHeap::from(vec![]);`
-
-## BTreeMap
-
-```rust
-use std::collections::BTreeMap;
-
-let mut map: BTreeMap<type, type> = BTreeMap::new();
-for (k, v) in map.iter() {}
-```
-
-- `.entry(a).or_insert(b);`
-- `.len()`
-- `.values().all(|x| *x == 2)`
-- `.get_mut()`
-- `.insert()`
-
-## VecDeque
-
-```rust
-use std::collections::VecDeque;
-
-let mut v = VecDeque::new();
-```
-
-- `.push_front(a)`
-- `.push_back(a)`
-- `.pop_back(a)`
-- `.pop_front(a)`
-
-
-## Vector
-
-```rust
-let mut vec = vec![];
-```
-
-- `.reverse()`
-- `.clone()`
-- `.split_off(a)`
-- `.iter().map(|letter| { c += 1; (letter, c) })`
-- `.iter().filter(|a| a.b == a.c)`
 
 ## 最大公約数
 
@@ -120,36 +52,6 @@ fn lcm(x: i64, y: i64) -> i64 {
 }
 ```
 
-## 動的区画方(DP)
-
-```rust
-let mut dp: Vec<Vec<i64>> = vec![];
-for _ in 0..height {
-  dp.push(vec![0; width as usize + 1])
-}
-
-for i in 1..height + 1 {
-  for j in 1..width + 1 {
-    let i_size = i as usize;
-    let j_size = j as usize;
-
-    // ここにロジック
-    dp[i_usize][j_usize] = min(
-      dp[i_usize - 1][j_usize],
-      dp[i_usize][j_usize - a as usize] + 1,
-    );
-  }
-}
-```
-
-
-## 深さ優先全探索
-```rust
-let two: i64 = 2;
-for i in 0..two.pow(n) {
-  let result: String = format!("{:0>keta$b}", i, keta = n as usize);
-  println("{}", result)
-}
 ```
 ## 高速で2^nを計算
 
@@ -173,13 +75,13 @@ fn powmod(x: i64, n: i64) -> i64 {
 ```rust
 use std::collections::HashSet;
 
-fn divisors(N: i64) -> HashSet<i64> {
+fn divisors(n: i64) -> HashSet<i64> {
   let mut ds = vec![];
   let mut d = 1;
-  while d * d <= N {
-    if N % d == 0 {
+  while d * d <= n {
+    if n % d == 0 {
       ds.push(d);
-      ds.push(N / d);
+      ds.push(n / d);
     }
     d += 1;
   }
@@ -241,63 +143,13 @@ impl Comb {
 }
 ```
 
-## Ai + Bj = X ( <= y )
-上記の式を満たすXの列挙
 
-O(n)
-```rust
-
-let mut dp = vec![false; y as usize + 1];
-
-for i in a..y + 1 {
-  let i_size = i as usize;
-  dp[i_size] = if dp[i_size - a as usize] {
-    true
-  } else {
-    false
-  };
-}
-
-for j in b..f + 1 {
-  let j_size = j as usize;
-  dp[j_size] = if dp[j_size - b as usize] {
-    true
-  } else {
-    false
-  };
-}
-```
-
-O(n^2)
-
-```rust
-
-let mut i = 0;
-let mut j = 0;
-
-while a * i <= y {
-  while a * i + b * j <= y {
-    println("i: {}, j: {}", i, j);
-    j += 1; }
-  i += 1;
-  j = 0;
-}
-```
-
-## graph
-
-```rust
-    type Graph = Vec<Vec<usize>>;
-
-```
 
 ## 2^10の列挙
 
 ```rust
 <!-- too slow -->
 let result: String = format!("{:0>keta$b}", i, keta = d as usize);
-
-
 ```
 
 ## BitDB
@@ -368,7 +220,7 @@ impl<T: Ord> BinarySearch<T> for [T] {
 }
 ```
 
-## Union-Find 
+##Union-Find 
 
 ```rust
 let mut uf = UnionFind::new(n);
@@ -419,7 +271,7 @@ impl UnionFind {
     fn same(&self, a: usize, b: usize) -> bool {
         let ra = self.root(a);
         let rb = self.root(b);
-        self.parent[a] == self.parent[b]
+        ra == rb
     }
 }
 ```
@@ -473,4 +325,78 @@ impl SegTree {
 
 done.contains is too slow don't go in  this way
 
+## next_permutation
+```rust
+pub trait LexicalPermutation {
+    /// Return `true` if the slice was permuted, `false` if it is already
+    /// at the last ordered permutation.
+    fn next_permutation(&mut self) -> bool;
+    /// Return `true` if the slice was permuted, `false` if it is already
+    /// at the first ordered permutation.
+    fn prev_permutation(&mut self) -> bool;
+}
 
+impl<T> LexicalPermutation for [T] where T: Ord {
+    /// Original author in Rust: Thomas Backman <serenity@exscape.org>
+    fn next_permutation(&mut self) -> bool {
+        // These cases only have 1 permutation each, so we can't do anything.
+        if self.len() < 2 { return false; }
+
+        // Step 1: Identify the longest, rightmost weakly decreasing part of the vector
+        let mut i = self.len() - 1;
+        while i > 0 && self[i-1] >= self[i] {
+            i -= 1;
+        }
+
+        // If that is the entire vector, this is the last-ordered permutation.
+        if i == 0 {
+            return false;
+        }
+
+        // Step 2: Find the rightmost element larger than the pivot (i-1)
+        let mut j = self.len() - 1;
+        while j >= i && self[j] <= self[i-1]  {
+            j -= 1;
+        }
+
+        // Step 3: Swap that element with the pivot
+        self.swap(j, i-1);
+
+        // Step 4: Reverse the (previously) weakly decreasing part
+        self[i..].reverse();
+
+        true
+    }
+
+    fn prev_permutation(&mut self) -> bool {
+        // These cases only have 1 permutation each, so we can't do anything.
+        if self.len() < 2 { return false; }
+
+        // Step 1: Identify the longest, rightmost weakly increasing part of the vector
+        let mut i = self.len() - 1;
+        while i > 0 && self[i-1] <= self[i] {
+            i -= 1;
+        }
+
+        // If that is the entire vector, this is the first-ordered permutation.
+        if i == 0 {
+            return false;
+        }
+
+        // Step 2: Reverse the weakly increasing part
+        self[i..].reverse();
+
+        // Step 3: Find the rightmost element equal to or bigger than the pivot (i-1)
+        let mut j = self.len() - 1;
+        while j >= i && self[j-1] < self[i-1]  {
+            j -= 1;
+        }
+
+        // Step 4: Swap that element with the pivot
+        self.swap(i-1, j);
+
+        true
+    }
+
+}
+```
